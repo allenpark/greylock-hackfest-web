@@ -1,0 +1,24 @@
+{% load staticfiles %}
+{% csrf_token %}
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script language="javascript" src="{% static 'js/main.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+  </head>
+  <body style="font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;">
+    <div class="header">
+      <span class="header-text">Wave</span>
+      <img src="{% static 'img/settings.png' %}" class="settings-button"></img>
+    </div>
+    <span class="name">{{ name }}</span>
+    <span class="num-users">Number users: {{ num_users}}</span>
+    <div class="map">THIS IS WHERE THE MAP GOES</div>
+    <span class="message">Message</span><br/>
+    <input class="message-input" type="text"><br/>
+    <span class="preview-title">What it'll look like</span>
+    <div class="preview"></div>
+    <span class="channels-title">Channels</span>
+    <div class="channels"></div>
+  </body>
+</html>
