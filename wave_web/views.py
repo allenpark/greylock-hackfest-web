@@ -10,3 +10,7 @@ def index(request):
     values['name'] = "Will Jamieson"
     values['num_users'] = 10
     return render_to_response("index.html", values, RequestContext(request))
+
+def settings(request):
+    values = {}
+    return render_to_response("settings.html", values, RequestContext(request))

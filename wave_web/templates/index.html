@@ -14,23 +14,44 @@
   </head>
   <body style="font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;">
     <div class="container">
+      <br/>
       <div class="row">
-	<div class="header-text col-md-4">Wave</div>
-	<div class="col-s-1 col-md-offset-10">
-	  <img src="{% static 'img/settings.png' %}">
-	</div>
-	</div>
+        <div class="col-md-2 col-md-offset-0">
+          <span class="header-text h2">Wave</span>
+        </div>
+        <div class="col-s-1 col-md-offset-10">
+          <a href="settings"><img src="{% static 'img/settings.png' %}"></a>
+        </div>
+      </div>
+      <br/>
       <div class="row">
-	<span class="name">{{ name }}</span><br/>
-	</div>
-	<span class="num-users">Number users: {{ num_users}}</span><br/>
-	<div class="map">THIS IS WHERE THE MAP GOES</div>
-	<span class="message">Message</span><br/>
-	<input class="message-input" type="text"><br/>
-	<span class="preview-title">What it'll look like</span>
-	<div class="preview"></div>
-	<span class="channels-title">Channels</span>
-	<div class="channels"></div>
+        <div class="col-md-0">
+          <span class="name h4">{{ name }}</span><br/>
+        </div>
+      </div>
+      <div class="row">
+        <span class="num-users">Number users: {{ num_users }}</span><br/>
+      </div>
+      <div class="row">
+        <div class="map">THIS IS WHERE THE MAP GOES</div>
+      </div>
+      <div class="row">
+        <span class="message">Message</span><br/>
+      </div>
+      <div class="row">
+        <input class="message-input" type="text"><br/>
+      </div>
+      <div class="row">
+        <span class="preview-title">What it'll look like</span>
+      </div>
+      <div class="row">
+        <div class="preview">&nbsp;</div>
+      </div>
+      <div class="row">
+        <span class="channels-title">Channels</span>
+      </div>
+      <div class="row">
+        <div class="channels"></div>
       </div>
   </body>
 </html>
