@@ -24,9 +24,9 @@
   </div>
   <div class="row v-spacing">
     <div class="col-md-offset-1">
-      <label for="address" class="h-spacing">Address</label>
+      <label for="address" class="h-spacing">Address: </label>
       <input type="textbox" id="address" placeholder="Current Address">
-      <label for="radius" class="h-spacing">Radius in miles</label>
+      <label for="radius" class="h-spacing">Radius in miles: </label>
       <input type="textbox" id="radius" placeholder="One Mile Radius">
       <input type="button" value="Set Address" id="setAddress" class="h-spacing">
       <input type="button" value="Use Current Location" id="useCurrentLocation" class="h-spacing">
@@ -34,28 +34,30 @@
       <div id="mapsError" class="errors h-spacing"></div>
     </div>
   </div>
+  <br/>
   <div class="row">
-    <span class="message">Message</span><br/>
+    <div class="col-md-offset-3">
+    <label for="message-input">
+      Message: <input name="message-input" class="message-input" type="text">
+    </label>
+    </div>
   </div>
   <div class="row">
-    <input class="message-input" type="text"><br/>
-  </div>
-  <div class="row">
-    <span class="preview-title">What it'll look like</span>
-  </div>
-  <div class="row">
-    <div class="preview">&nbsp;</div>
-  </div>
-  <div class="row">
-    <span class="channels-title">Channels</span>
-  </div>
-  <div class="row">
-    <div class="channel-choices">
+    <div class="channel-choices col-md-offset-5">
+      <label for="channel">Channels: </label>
       <select id="channel">
         {% for channel in channels %}
         <option value="{{ channel.name }}">{{ channel.name }}</option>
         {% endfor %}
       </select>
+    </div>
+  </div><br/>
+  <div class="row">
+    <div class="preview-container col-md-offset-5">
+      <img src="{% static 'img/sample_alert.jpg' %}"></img>
+      <div class="preview-text-container">
+        <div id="preview" class="preview">This is a really long message about the Giants winning the game in the stadium over there in San Francisco. #winning #sportsball #GOOOOOOOOAAAALL</div>
+      </div>
     </div>
   </div>
 </div>

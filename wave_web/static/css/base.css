@@ -3,13 +3,17 @@
     min-height: 150px;
     min-width: 1136px;
     background-image:url("/static/img/header.png");
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
+
 @media (min-width: 1136px) {
     .header{
         background-size: 100%;
         background-image:url("/static/img/header.png");
     }
 }
+
 .footer {
     width: 100%;
     max-height: 90px;
@@ -17,6 +21,7 @@
     background-image:url("/static/img/header.png");
     bottom:0px;
 }
+
 @media (min-width: 1136px) {
     .footer{
         background-size: 100%;
@@ -24,11 +29,12 @@
         padding-bottom:0px;
     }
 }
-.page_name {
+
+.page-name {
     font-size: 40px;
-    padding-top: 40px;
-    padding-left: 40px;
+    text-align: center;
 }
+
 body {
     background: #DDDCE2 url("/static/img/body_bg.jpg") repeat left top;
 }
