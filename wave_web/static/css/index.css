@@ -1,0 +1,24 @@
+.map {
+    height: 400px;
+    background-color: #CCC;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.h-spacing {
+    margin-left: 20px;
+}
+
+.v-spacing {
+    margin-top: 10px;
+}
+
+.labels {
+    background-color: white;
+    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid black;
+    white-space: nowrap;
+    padding: 10px;
+}
