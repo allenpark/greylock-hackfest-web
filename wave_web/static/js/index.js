@@ -109,45 +109,23 @@ function onLocationChange(location) {
     map.setZoom(radiusToZoom(meters));
 
     var channel = $('#channel').val();
-    var numUsers = getNumUsersOnChannelInRadius(location, channel, miles, function(data, status, xhr) {
-        handleJson(data, status, xhr, location);
+    var url = "api/getNumUsersOnChannelInRadius/" + channel + "/" + location.lat() + "/" + location.lng() + "/" + miles;
+    $.getJSON(url, function(data, status, xhr) {
+        var markerOptions = {
+            position: location,
+            draggable: false,
+            raiseOnDrag: false,
+            map: map,
+            labelContent: 'There are ' + data["num_users"] + ' users in this radius.',
+            labelAnchor: new google.maps.Point(100, 0),
+            labelClass: 'labels', // the CSS class for the label
+        };
+        if (marker) {
+            marker.setOptions(markerOptions);
+        } else {
+            marker = new MarkerWithLabel(markerOptions);
+        }
     });
-    // var markerOptions = {
-    //     position: location,
-    //     draggable: false,
-    //     raiseOnDrag: false,
-    //     map: map,
-    //     labelContent: 'There are ' + numUsers + ' users in this radius.',
-    //     labelAnchor: new google.maps.Point(100, 0),
-    //     labelClass: 'labels', // the CSS class for the label
-    // };
-    // if (marker) {
-    //     marker.setOptions(markerOptions);
-    // } else {
-    //     marker = new MarkerWithLabel(markerOptions);
-    // }
-}
-
-function getNumUsersOnChannelInRadius(location, channel, miles, callback) {
-    url = "api/getNumUsersOnChannelInRadius/"+channel+"/"+location.lat()+"/"+location.lng()+"/"+miles;
-    console.log(url);
-    $.getJSON(url, callback);
-}
-function handleJson (data, status, xhr, location){
-    var markerOptions = {
-        position: location,
-        draggable: false,
-        raiseOnDrag: false,
-        map: map,
-        labelContent: 'There are ' + data["num_users"] + ' users in this radius.',
-        labelAnchor: new google.maps.Point(100, 0),
-        labelClass: 'labels', // the CSS class for the label
-    };
-    if (marker) {
-        marker.setOptions(markerOptions);
-    } else {
-        marker = new MarkerWithLabel(markerOptions);
-    }
 }
 
 function onMapsError(error) {
