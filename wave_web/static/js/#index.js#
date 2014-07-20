@@ -1,0 +1,16 @@
+$(document).ready(function() {
+    $('.message-input').bind('input', function(e) {
+        var text = $('.message-input').val();
+        if (text === '') {
+            text = '&nbsp;';
+        }
+        $('#preview').html(text);
+    });
+    map_initialize();
+    $('#setAddress').bind('click', setAddress);
+    $('#address').bind('keyup', function(e) {
+        if (e.which === 13) {
+            setAddress();
+        }
+    });
+    $('#radius').bind('keyup', function(e) {
