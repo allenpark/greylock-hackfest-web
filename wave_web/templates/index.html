@@ -53,7 +53,7 @@
     <div class="channel-choices">
       <select>
         {% for channel in channels %}
-        <option value="{{ channel['objectId'] }}">{{ channel['name'] }}</option>
+        <option value="{{ channel.objectId }}">{{ channel.name }}</option>
         {% endfor %}
       </select>
     </div>
