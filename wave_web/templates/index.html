@@ -4,6 +4,7 @@
 {% block scripts %}
 <script src="https://maps.googleapis.com/maps/api/js"></script>
 <script language="javascript" src="{% static 'js/index.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/markerwithlabel_packed.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock %}
 
@@ -12,25 +13,25 @@
 {% block contents %}
 <div class="container">
   <div class="row">
-    <div class="col-md-0">
-      <span class="name h4">{{ name }}</span><br/>
+    <div class="col-md-offset-1">
+      <span class="name h2">{{ name }}</span><br/>
     </div>
   </div>
-  <div class="row">
-    <span class="num-users">Number users: {{ num_users }}</span><br/>
-  </div>
-  <div class="row">
+  <div class="row v-spacing">
     <div class="col-md-offset-1 col-md-10">
       <div id="map_canvas" class="map"></div>
     </div>
   </div>
-  <div class="row">
+  <div class="row v-spacing">
     <div class="col-md-offset-1">
-      <input type="textbox" id="address">
-      <input type="button" value="Set Address" id="setAddress" class="map_button">
-      <input type="button" value="Use Current Location" id="useCurrentLocation" class="map_button">
-      <span id="loading" class="hidden">Loading...</span>
-      <div id="mapsError" class="errors"></div>
+      <label for="address" class="h-spacing">Address</label>
+      <input type="textbox" id="address" placeholder="Current Address">
+      <label for="radius" class="h-spacing">Radius in miles</label>
+      <input type="textbox" id="radius" placeholder="One Mile Radius">
+      <input type="button" value="Set Address" id="setAddress" class="h-spacing">
+      <input type="button" value="Use Current Location" id="useCurrentLocation" class="h-spacing">
+      <span id="loading" class="hidden h-spacing">Loading...</span>
+      <div id="mapsError" class="errors h-spacing"></div>
     </div>
   </div>
   <div class="row">
@@ -49,7 +50,13 @@
     <span class="channels-title">Channels</span>
   </div>
   <div class="row">
-    <div class="channels"></div>
+    <div class="channel-choices">
+      <select>
+        {% for channel in channels %}
+        <option value="{{ channel['objectId'] }}">{{ channel['name'] }}</option>
+        {% endfor %}
+      </select>
+    </div>
   </div>
 </div>
 {% endblock %}
