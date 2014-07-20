@@ -179,7 +179,7 @@ function submitForm() {
         var latitude = position.lat();
         var longitude = position.lng();
         document.getElementById("latitude").value = latitude;
-        document.getElementById("longitude").value = latitude;
+        document.getElementById("longitude").value = longitude;
         $('#form').submit();
     });
 }

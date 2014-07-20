@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
-import json, httplib, urllib, datetime
+import json, httplib, urllib, datetime, pytz
 
 def wave_admin(request):
     values = {}
@@ -12,7 +12,7 @@ def index(request):
     if request.method == 'POST':
     	handle_submitted_sponsored_post(request)
     values = {}
-    values['name'] = "Will Jamieson"
+    values['name'] = "A Brick and Mortor Store, Inc."
     values['num_users'] = 10
     values['channels'] = get_active_channels()
     return render_to_response("index.html", values, RequestContext(request))
@@ -93,7 +93,7 @@ def save_sponsored_post(messageText, channel, latitude, longitude, radius, date)
            "__type": "Date",
            "iso": date.isoformat()
        },
-       "promoted_radius" : radius,
+       "promotedRadius" : radius,
        "messageText": messageText,
        "promoted": True,
      }), {
@@ -155,11 +155,27 @@ def get_num_users_in_radius(request, channel, latitude, longitude, radius):
     return HttpResponse(json.dumps(data))
 
 def handle_submitted_sponsored_post(request):
-	message = request.POST['message']
-	latitude = float(request.POST['latitude'])
-	longitude = float(request.POST['longitude'])
-	radius = float(request.POST['radius'])
-	channel = request.POST['channel']
-	date = datetime.datetime.strptime(request.POST['datetime'],"%m/%d/%Y %H:%M")
-	save_sponsored_post(message, channel, latitude, longitude, radius, date)
-	# push_sponsored_post(message, channel, latitude, longitude, radius, date)
+    message = request.POST['message']
+    latitude = float(request.POST['latitude'])
+    longitude = float(request.POST['longitude'])
+    radius = float(request.POST['radius'])
+    channel = request.POST['channel']
+    local = pytz.timezone ("America/Los_Angeles")
+    naive = datetime.datetime.strptime(request.POST['datetime'],"%m/%d/%Y %H:%M")
+    local_dt = local.localize(naive, is_dst=None)
+    utc_dt = local_dt.astimezone(pytz.utc)
+    save_sponsored_post(message, channel, latitude, longitude, radius, utc_dt)
+    push_sponsored_post(message,  get_channel_name_from_id(channel), latitude, longitude, radius, utc_dt)
+
+def get_channel_name_from_id(id):
+    connection = httplib.HTTPSConnection('api.parse.com', 443)
+    params = urllib.urlencode({"where":json.dumps({
+       "objectId": id,
+     })})
+    connection.connect()
+    connection.request('GET', '/1/classes/Channel?%s' % params, '', {
+       "X-Parse-Application-Id": "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW",
+       "X-Parse-REST-API-Key": "5vaJiWwBd46tQaXQbBs75WHek4TrIONo6SWoYrhX"
+     })
+    result = json.loads(connection.getresponse().read())
+    return result["results"][0]["name"]    
