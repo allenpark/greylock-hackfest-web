@@ -17,6 +17,10 @@
     margin-top: 10px;
 }
 
+.map_header {
+    font-size: 20px;
+    text-align: center;
+}
 .labels {
     background-color: white;
     font-family: "Lucida Grande", "Arial", sans-serif;

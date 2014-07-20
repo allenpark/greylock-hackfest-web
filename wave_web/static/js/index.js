@@ -7,7 +7,7 @@ $(document).ready(function() {
         $('#preview').html(text);
     });
     map_initialize();
-    $('#setAddress').bind('click', function() {setAddress(onLocationChange);});
+    // $('#setAddress').bind('click', function() {setAddress(onLocationChange);});
     $('#address').bind('keyup', function(e) {
         if (e.which === 13) {
             setAddress(onLocationChange);
@@ -40,11 +40,11 @@ var marker;
 var circle;
 function map_initialize() {
     geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var latlng = new google.maps.LatLng(40.7127, -74.0059);
     var map_canvas = $('.map')[0];
     var map_options = {
         center: latlng,
-        zoom: 8,
+        zoom: 10,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(map_canvas, map_options);
