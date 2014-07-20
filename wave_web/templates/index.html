@@ -2,7 +2,9 @@
 {% load staticfiles %}
 
 {% block scripts %}
-<script language="javascript" src="{% static 'js/main.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script language="javascript" src="{% static 'js/index.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock %}
 
 {% block title %}Wave Control Panel{% endblock %}
@@ -18,7 +20,18 @@
     <span class="num-users">Number users: {{ num_users }}</span><br/>
   </div>
   <div class="row">
-    <div class="map">THIS IS WHERE THE MAP GOES</div>
+    <div class="col-md-offset-1 col-md-10">
+      <div id="map_canvas" class="map"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-1">
+      <input type="textbox" id="address">
+      <input type="button" value="Set Address" id="setAddress" class="map_button">
+      <input type="button" value="Use Current Location" id="useCurrentLocation" class="map_button">
+      <span id="loading" class="hidden">Loading...</span>
+      <div id="mapsError" class="errors"></div>
+    </div>
   </div>
   <div class="row">
     <span class="message">Message</span><br/>
