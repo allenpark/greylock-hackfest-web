@@ -4,7 +4,7 @@ $(document).ready(function() {
         if (text === '') {
             text = '&nbsp;';
         }
-        $('.preview').html(text);
+        $('#preview').html(text);
     });
     map_initialize();
     $('#setAddress').bind('click', setAddress);
@@ -127,6 +127,7 @@ function onLocationChange(location) {
 }
 
 function getNumUsersOnChannelInRadius(location, channel, miles) {
+    console.log(location + " " + channel + " " + miles);
     return 10;
 }
 

@@ -22,3 +22,31 @@
     white-space: nowrap;
     padding: 10px;
 }
+
+.message-input {
+    width: 500px;
+}
+
+.preview-container {
+    position: relative;
+}
+
+.preview {
+    font-family: "Droid Sans";
+    font-style: normal;
+    font-size: 20px;
+    vertical-align: middle;
+    display: table-cell;
+    word-wrap: break-word;
+}
+
+.preview-text-container {
+    position: absolute; 
+    left: 15px;
+    top: 125px;
+    width: 240px;
+    height: 190px;
+    z-index: 100;
+    text-align: center;
+    display: table;
+}
