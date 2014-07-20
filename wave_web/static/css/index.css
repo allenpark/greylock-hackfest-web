@@ -66,3 +66,11 @@
 .date-send {
     width: 85px;
 }
+
+.sign-out {
+    position: absolute;
+    right: 50px;
+    top: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}

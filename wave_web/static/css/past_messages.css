@@ -18,3 +18,11 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.sign-out {
+    position: absolute;
+    right: 50px;
+    top: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}
