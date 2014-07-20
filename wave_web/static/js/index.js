@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $('.message-input').bind('input', function(e) {
-        var text = $('.message-input').val();
+    $('.message').bind('input', function(e) {
+        var text = $('.message').val();
         if (text === '') {
             text = '&nbsp;';
         }
@@ -23,6 +23,8 @@ $(document).ready(function() {
     } else {
         $('#useCurrentLocation').hide();
     }
+    $('#timeSend').mask('99:99');
+    $('#dateSend').mask('99/99/9999');
 });
 
 var geocoder;
@@ -42,29 +44,35 @@ function map_initialize() {
 }
 //google.maps.event.addDomListener(window, 'load', map_initialize);
 
-function setAddress() {
+function setAddress(callback) {
+    if (!callback) {
+        callback = onLocationChange;
+    }
     var address = $('#address').val();
     if (address === null || address === '') {
-        useCurrentLocation();
+        useCurrentLocation(callback);
         return;
     }
     showLoading();
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            onLocationChange(results[0].geometry.location);
+            callback(results[0].geometry.location);
         } else {
             onMapsError('That location could not be found. Please try again.');
         }
     });
 }
 
-function useCurrentLocation() {
+function useCurrentLocation(callback) {
     if (navigator.geolocation) {
         showLoading();
         navigator.geolocation.getCurrentPosition(function(position) {
             var latlng = new google.maps.LatLng(position.coords.latitude,
                                                 position.coords.longitude);
-            onLocationChange(latlng);
+            if (!callback) {
+                callback = onLocationChange;
+            }
+            callback(latlng);
         });
     } else {
         onMapsError('We cannot find your current location.');
@@ -87,6 +95,7 @@ function hideLoading() {
 
 function onLocationChange(location) {
     hideLoading();
+    var channel = $('#selectedChannel').text();
     map.setCenter(location);
     var miles = parseInt($('#radius').val());
     miles = isNaN(miles) ? 1 : miles;
@@ -108,7 +117,6 @@ function onLocationChange(location) {
     }
     map.setZoom(radiusToZoom(meters));
 
-    var channel = $('#channel').val();
     var url = "api/getNumUsersOnChannelInRadius/" + channel + "/" + location.lat() + "/" + location.lng() + "/" + miles;
     $.getJSON(url, function(data, status, xhr) {
         var markerOptions = {
@@ -145,4 +153,24 @@ function radiusToZoom( r ){
         }
     }
     return z;
+}
+
+function changeChannel(channel) {
+    $('#selectedChannel').text(channel);
+    $('#channel').html(channel);
+}
+
+function submitForm() {
+    var time = $('#timeSend').val();
+    var date = $('#dateSend').val();
+    var datetime = time + " " + date;
+    $('#datetime').html(datetime);
+
+    setAddress(function(position) {
+        var latitude = position.lat();
+        var longitude = position.lng();
+        $('#latitude').html(latitude);
+        $('#longitude').html(longitude);
+        this.form.submit();
+    });
 }
