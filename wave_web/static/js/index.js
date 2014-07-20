@@ -150,14 +150,6 @@ function handleJson (data, status, xhr, location){
     }
 }
 
-<<<<<<< HEAD
-=======
-function getNumUsersOnChannelInRadius(location, channel, miles) {
-    console.log(location + " " + channel + " " + miles);
-    return 10;
-}
-
->>>>>>> ac2f6bf511163a221ac3ce64d0c62d13d5ff8bd8
 function onMapsError(error) {
     $('#mapsError').text(error);
 }
