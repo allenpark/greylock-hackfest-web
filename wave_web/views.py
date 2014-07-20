@@ -14,6 +14,9 @@ def index(request):
     values['num_users'] = 10
     return render_to_response("index.html", values, RequestContext(request))
 
+def settings(request):
+    values = {}
+    return render_to_response("settings.html", values, RequestContext(request))
 
 """
 Helper Functions
@@ -31,7 +34,7 @@ def get_channels_to_review():
        "X-Parse-REST-API-Key": "5vaJiWwBd46tQaXQbBs75WHek4TrIONo6SWoYrhX"
      })
     result = json.loads(connection.getresponse().read())
-    return [{"objectId": channel["objectId"], "name": channel["name"]} for channel in result["results"]] 
+    return [(channel["objectId"], channel["name"]) for channel in result["results"]]
 
 def get_active_channels():
     connection = httplib.HTTPSConnection('api.parse.com', 443)

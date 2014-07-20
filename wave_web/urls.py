@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/$', wave_admin),
-    url(r'^$', index)
+    url(r'^$', index),
+    url(r'^settings/$', settings)
 )
 
 urlpatterns += staticfiles_urlpatterns()
