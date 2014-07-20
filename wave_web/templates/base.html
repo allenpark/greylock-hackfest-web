@@ -9,15 +9,17 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:Condensed" />
     {% block scripts %}{% endblock %}
   </head>
-  <body class="body">
+  <!--<body class="body" style="font-family: &quot;Droid Sans&quot;; font-style: normal">-->
+  <body class="body" style="font-family: &quot;Open Sans&quot;; font-style: normal;">
     <div class="not-footer">
       <div class="row">
         <div class="header-container">
           <div class="col-md-12 header">
             <div class="page-name">
-              {% block title %}Wave Sponsor Panel{% endblock %}
+              <u>{% block title %}<img src="{% static 'img/wave_icon.png' %}" style="margin-top: -8px"/>ave Sponsor Panel{% endblock %}</u>
             </div>
           </div>
         </div>
