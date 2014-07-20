@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 import json, httplib, urllib, datetime
 
@@ -81,24 +81,47 @@ def submit_sponsored_post(messageText, channel, latitude, longitude, date):
     result = json.loads(connection.getresponse().read())
     return result
 
-# def get_num_users_in_radius(channel, latitude, longitude, radius):
-#     connection = httplib.HTTPSConnection('api.parse.com', 443)
-#     params = urllib.urlencode({"where":json.dumps({
-#        "currentLocation": {
-#          "$nearSphere": {
-#            "__type": "GeoPoint",
-#            "latitude": latitude,
-#            "longitude": longitude
-#          },
-#          "$maxDistanceInMiles": radius
-#        },
-#        "channels" : channel
-#      })})
-#     connection.connect()
-#     connection.request('GET', '/1/classes/User?%s' % params, '', {
-#        "X-Parse-Application-Id": "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW",
-#        "X-Parse-REST-API-Key": "5vaJiWwBd46tQaXQbBs75WHek4TrIONo6SWoYrhX"
-#      })
-#     result = json.loads(connection.getresponse().read())
-#     print result
+def push():
+    import json,httplib
+    connection = httplib.HTTPSConnection('api.parse.com', 443)
+    connection.connect()
+    connection.request('POST', '/1/push', json.dumps({
+         "channels": [
+           "sai",
+         ],
+         "data": {
+           "action": "com.greylock.wave.NEW_WAVE",
+           "message": "test message"
+         }
+       }), {
+         "X-Parse-Application-Id": "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW",
+         "X-Parse-REST-API-Key": "5vaJiWwBd46tQaXQbBs75WHek4TrIONo6SWoYrhX",
+         "Content-Type": "application/json"
+       })
+    result = json.loads(connection.getresponse().read())
+    print result
 
+def get_num_users_in_radius(request, channel, latitude, longitude, radius):
+    latitude = float(latitude)
+    longitude = float(longitude)
+    radius = float(radius)
+    connection = httplib.HTTPSConnection('api.parse.com', 443)
+    connection.connect()
+    params = urllib.urlencode({"where":json.dumps({
+       "currentLocation": {
+         "$nearSphere": {
+           "__type": "GeoPoint",
+           "latitude": latitude,
+           "longitude": longitude
+         },
+         "$maxDistanceInMiles": 10
+       },
+        "channels" : channel
+     })})
+    connection.request('GET', '/1/installations?%s' % params, '', {
+       "X-Parse-Application-Id": "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW",
+       "X-Parse-Master-Key": "Y7YzCKJy5MhWUO2vHUE5IR8SIqxHEVQgmQILdxxZ"
+     })
+    result = json.loads(connection.getresponse().read())
+    data = {"num_users": len(result["results"])}
+    return HttpResponse(json.dumps(data))

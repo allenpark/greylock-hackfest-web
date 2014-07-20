@@ -51,9 +51,9 @@
   </div>
   <div class="row">
     <div class="channel-choices">
-      <select>
+      <select id="channel">
         {% for channel in channels %}
-        <option value="{{ channel.objectId }}">{{ channel.name }}</option>
+        <option value="{{ channel.name }}">{{ channel.name }}</option>
         {% endfor %}
       </select>
     </div>
