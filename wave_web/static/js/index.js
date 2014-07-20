@@ -109,13 +109,37 @@ function onLocationChange(location) {
     map.setZoom(radiusToZoom(meters));
 
     var channel = $('#channel').val();
-    var numUsers = getNumUsersOnChannelInRadius(location, channel, miles);
+    var numUsers = getNumUsersOnChannelInRadius(location, channel, miles, function(data, status, xhr) {
+        handleJson(data, status, xhr, location);
+    });
+    // var markerOptions = {
+    //     position: location,
+    //     draggable: false,
+    //     raiseOnDrag: false,
+    //     map: map,
+    //     labelContent: 'There are ' + numUsers + ' users in this radius.',
+    //     labelAnchor: new google.maps.Point(100, 0),
+    //     labelClass: 'labels', // the CSS class for the label
+    // };
+    // if (marker) {
+    //     marker.setOptions(markerOptions);
+    // } else {
+    //     marker = new MarkerWithLabel(markerOptions);
+    // }
+}
+
+function getNumUsersOnChannelInRadius(location, channel, miles, callback) {
+    url = "api/getNumUsersOnChannelInRadius/"+channel+"/"+location.lat()+"/"+location.lng()+"/"+miles;
+    console.log(url);
+    $.getJSON(url, callback);
+}
+function handleJson (data, status, xhr, location){
     var markerOptions = {
         position: location,
         draggable: false,
         raiseOnDrag: false,
         map: map,
-        labelContent: 'There are ' + numUsers + ' users in this radius.',
+        labelContent: 'There are ' + data["num_users"] + ' users in this radius.',
         labelAnchor: new google.maps.Point(100, 0),
         labelClass: 'labels', // the CSS class for the label
     };
@@ -126,11 +150,14 @@ function onLocationChange(location) {
     }
 }
 
+<<<<<<< HEAD
+=======
 function getNumUsersOnChannelInRadius(location, channel, miles) {
     console.log(location + " " + channel + " " + miles);
     return 10;
 }
 
+>>>>>>> ac2f6bf511163a221ac3ce64d0c62d13d5ff8bd8
 function onMapsError(error) {
     $('#mapsError').text(error);
 }
