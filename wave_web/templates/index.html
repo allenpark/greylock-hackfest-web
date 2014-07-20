@@ -12,54 +12,76 @@
 {% block title %}Wave Control Panel{% endblock %}
 
 {% block contents %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-offset-1">
-      <span class="name h2">{{ name }}</span><br/>
+<form action="" method="POST">
+  {% csrf_token %}
+  <div class="container no-overflow">
+    <div class="row">
+      <div class="col-md-offset-1">
+        <span class="name h2">{{ name }}</span><br/>
+      </div>
     </div>
-  </div>
-  <div class="row v-spacing">
-    <div class="col-md-offset-1 col-md-10">
-      <div id="map_canvas" class="map"></div>
+    <div class="row v-spacing">
+      <div class="col-md-offset-1 col-md-10">
+        <div id="map_canvas" class="map"></div>
+      </div>
     </div>
-  </div>
-  <div class="row v-spacing">
-    <div class="col-md-offset-1">
-      <label for="address" class="h-spacing">Address: </label>
-      <input type="textbox" id="address" placeholder="Current Address">
-      <label for="radius" class="h-spacing">Radius in miles: </label>
-      <input type="textbox" id="radius" placeholder="One Mile Radius">
-      <input type="button" value="Set Address" id="setAddress" class="h-spacing">
-      <input type="button" value="Use Current Location" id="useCurrentLocation" class="h-spacing">
-      <span id="loading" class="hidden h-spacing">Loading...</span>
-      <div id="mapsError" class="errors h-spacing"></div>
+    <div class="row v-spacing">
+      <div class="col-md-offset-1">
+        <input type="hidden" name="latitude" id="latitude"></input>
+        <input type="hidden" name="longitude" id="longitude"></input>
+        <label for="address" class="h-spacing">Address: </label>
+        <input type="textbox" id="address" placeholder="Current Address">
+        <label for="radius" class="h-spacing">Radius in miles: </label>
+        <input type="textbox" id="radius" name="radius" placeholder="One Mile Radius">
+        <input type="button" value="Set Address" id="setAddress" class="h-spacing">
+        <input type="button" value="Use Current Location" id="useCurrentLocation" class="h-spacing">
+        <span id="loading" class="hidden h-spacing">Loading...</span>
+        <div id="mapsError" class="errors h-spacing"></div>
+      </div>
     </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-md-offset-3">
-    <label for="message-input">
-      Message: <input name="message-input" class="message-input" type="text">
-    </label>
+    <br/>
+    <div class="row">
+      <div class="col-md-offset-2">
+        <label for="message">Message: </label>
+        <input name="message" class="message" type="text"></input>
+        <input type="hidden" name="channel" id="channel">{{ channels.0.name }}</input>
+        <label for="channelSelector" class="h-spacing">Channels: </label>
+        <span id="channelSelector" class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            <span id="selectedChannel">{{ channels.0.name }}</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            {% for channel in channels %}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="changeChannel('{{ channel.name }}')">{{ channel.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </span>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="channel-choices col-md-offset-5">
-      <label for="channel">Channels: </label>
-      <select id="channel" onchange="setAddress()">
-        {% for channel in channels %}
-        <option value="{{ channel.name }}">{{ channel.name }}</option>
-        {% endfor %}
-      </select>
+    <div class="row v-spacing">
+      <div class="channel-choices col-md-offset-3">
+        <input type="hidden" name="datetime" id="datetime"></input>
+        <label for="timeSend" class="h-spacing">Time to send: </label>
+        <input id="timeSend" type="text" class="time-send h-spacing"></input>
+        <label for="timeSend">(HH:MM)</label>
+        <input id="dateSend" type="text" class="date-send h-spacing"></input>
+        <label for="dateSend">(MM/DD/YYYY)</label>
+      </div>
+    </div><br/>
+    <div class="row">
+      <div class="preview-container col-md-offset-5">
+        <img src="{% static 'img/sample_alert.jpg' %}"></img>
+        <div class="preview-text-container">
+          <div id="preview" class="preview">This is a really long message about the Giants winning the game in the stadium over there in San Francisco. #winning #sportsball #GOOOOOOOOAAAALL</div>
+        </div>
+      </div>
     </div>
-  </div><br/>
-  <div class="row">
-    <div class="preview-container col-md-offset-5">
-      <img src="{% static 'img/sample_alert.jpg' %}"></img>
-      <div class="preview-text-container">
-        <div id="preview" class="preview">This is a really long message about the Giants winning the game in the stadium over there in San Francisco. #winning #sportsball #GOOOOOOOOAAAALL</div>
+    <div class="row v-spacing">
+      <div class="col-md-offset-5">
+        <input type="image" src="{% static 'img/submit.jpg' %}" onclick="submitForm();"/>
       </div>
     </div>
   </div>
-</div>
+</form>
 {% endblock %}

@@ -1,3 +1,7 @@
+.no-overflow {
+    overflow-x: hidden;
+}
+
 .map {
     height: 400px;
     background-color: #CCC;
@@ -23,7 +27,7 @@
     padding: 10px;
 }
 
-.message-input {
+.message {
     width: 500px;
 }
 
@@ -49,4 +53,12 @@
     z-index: 100;
     text-align: center;
     display: table;
+}
+
+.time-send {
+    width: 45px;
+}
+
+.date-send {
+    width: 85px;
 }
