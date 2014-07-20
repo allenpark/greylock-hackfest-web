@@ -12,6 +12,7 @@ def index(request):
     values = {}
     values['name'] = "Will Jamieson"
     values['num_users'] = 10
+    values['channels'] = get_active_channels()
     return render_to_response("index.html", values, RequestContext(request))
 
 def settings(request):
@@ -21,7 +22,6 @@ def settings(request):
 """
 Helper Functions
 """
-def
 
 def get_channels_to_review():
     connection = httplib.HTTPSConnection('api.parse.com', 443)
@@ -35,7 +35,7 @@ def get_channels_to_review():
      })
     result = json.loads(connection.getresponse().read())
     return [{"objectId": channel["objectId"], "name": channel["name"]} for channel in result["results"]]   
-    
+
 def get_active_channels():
     connection = httplib.HTTPSConnection('api.parse.com', 443)
     params = urllib.urlencode({"where":json.dumps({
