@@ -164,20 +164,24 @@ function radiusToZoom( r ){
 
 function changeChannel(channel) {
     $('#selectedChannel').text(channel);
-    $('#channel').html(channel);
+    document.getElementById("channel").value = channel;
 }
 
 function submitForm() {
     var time = $('#timeSend').val();
     var date = $('#dateSend').val();
-    var datetime = time + " " + date;
-    $('#datetime').html(datetime);
+    var datetime = date + " " + time;
+    document.getElementById("datetime").value = datetime;
+
+    if ($('#radius').text() === "") {
+        $('#radius').val(1);
+    }
 
     setAddress(function(position) {
         var latitude = position.lat();
         var longitude = position.lng();
-        $('#latitude').html(latitude);
-        $('#longitude').html(longitude);
+        document.getElementById("latitude").value = latitude;
+        document.getElementById("longitude").value = latitude;
         $('#form').submit();
     });
 }

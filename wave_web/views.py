@@ -11,8 +11,6 @@ def wave_admin(request):
 def index(request):
     if request.method == 'POST':
     	handle_submitted_sponsored_post(request)
-        request.POST['patient_first_name']
-
     values = {}
     values['name'] = "Will Jamieson"
     values['num_users'] = 10
@@ -138,9 +136,10 @@ def get_num_users_in_radius(request, channel, latitude, longitude, radius):
 
 def handle_submitted_sponsored_post(request):
 	message = request.POST['message']
-	latitude = request.POST['latitude']
-	longitude = request.POST['longitude']
-	radius = request.POST['radius']
+	latitude = float(request.POST['latitude'])
+	longitude = float(request.POST['longitude'])
+	radius = float(request.POST['radius'])
+	channel = request.POST['channel']
 	date = datetime.datetime.strptime(request.POST['datetime'],"%m/%d/%Y %H:%M")
 	save_sponsored_post(message, channel, latitude, longitude, radius, date)
 	# push_sponsored_post(message, channel, latitude, longitude, radius, date)
