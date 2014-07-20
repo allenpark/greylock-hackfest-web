@@ -35,6 +35,9 @@
     width: 500px;
 }
 
+.message_area{
+    font-size: 25px;
+}
 .preview-container {
     position: relative;
 }
@@ -60,7 +63,7 @@
 }
 
 .time-send {
-    width: 45px;
+    width: 120px;
 }
 
 .date-send {
@@ -73,4 +76,8 @@
     top: 20px;
     font-size: 15px;
     font-weight: bold;
+}
+
+.submit_button{
+    padding-left: 70px;
 }

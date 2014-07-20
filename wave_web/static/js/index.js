@@ -23,7 +23,7 @@ $(document).ready(function() {
     } else {
         $('#useCurrentLocation').hide();
     }
-    $('#timeSend').mask('99:99');
+    $('#timeSend').mask('99/99/9999 99:99');
     $('#dateSend').mask('99/99/9999');
     $('#form').bind('keyup keypress', function(e) {
         var code = e.keyCode || e.which;
