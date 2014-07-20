@@ -46,7 +46,7 @@
   <div class="row">
     <div class="channel-choices col-md-offset-5">
       <label for="channel">Channels: </label>
-      <select id="channel">
+      <select id="channel" onchange="setAddress()">
         {% for channel in channels %}
         <option value="{{ channel.name }}">{{ channel.name }}</option>
         {% endfor %}

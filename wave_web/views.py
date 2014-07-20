@@ -9,6 +9,10 @@ def wave_admin(request):
     return render_to_response("admin.html", values, RequestContext(request))
 
 def index(request):
+    if request.method == 'POST':
+    	handle_submitted_sponsored_post(request)
+        request.POST['patient_first_name']
+
     values = {}
     values['name'] = "Will Jamieson"
     values['num_users'] = 10
@@ -50,7 +54,7 @@ def get_active_channels():
     result = json.loads(connection.getresponse().read())
     return [{"objectId": channel["objectId"], "name": channel["name"]} for channel in result["results"]]    
 
-def submit_sponsored_post(messageText, channel, latitude, longitude, date):
+def save_sponsored_post(messageText, channel, latitude, longitude, radius, date):
     connection = httplib.HTTPSConnection('api.parse.com', 443)
     connection.request('POST', '/1/classes/Message', json.dumps({
        "user":  {
@@ -71,6 +75,7 @@ def submit_sponsored_post(messageText, channel, latitude, longitude, date):
            "__type": "Date",
            "iso": date.isoformat()
        },
+       "promoted_radius" : radius,
        "messageText": messageText,
        "promoted": True,
      }), {
@@ -81,18 +86,23 @@ def submit_sponsored_post(messageText, channel, latitude, longitude, date):
     result = json.loads(connection.getresponse().read())
     return result
 
-def push():
+def push_sponsored_post(messageText, channel, latitude, longitude, radius, date):
     import json,httplib
     connection = httplib.HTTPSConnection('api.parse.com', 443)
     connection.connect()
     connection.request('POST', '/1/push', json.dumps({
          "channels": [
-           "sai",
+           channel,
          ],
          "data": {
            "action": "com.greylock.wave.NEW_WAVE",
-           "message": "test message"
-         }
+           "message": messageText,
+           "lat": latitude,
+           "long": longitude,
+           "promotedRadius" : radius,
+           "promoted" : True
+         }, 
+         "push_time": "{0}".format(date.isoformat()),
        }), {
          "X-Parse-Application-Id": "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW",
          "X-Parse-REST-API-Key": "5vaJiWwBd46tQaXQbBs75WHek4TrIONo6SWoYrhX",
@@ -125,3 +135,12 @@ def get_num_users_in_radius(request, channel, latitude, longitude, radius):
     result = json.loads(connection.getresponse().read())
     data = {"num_users": len(result["results"])}
     return HttpResponse(json.dumps(data))
+
+def handle_submitted_sponsored_post(request):
+	message = request.POST['message']
+	latitude = request.POST['latitude']
+	longitude = request.POST['longitude']
+	radius = request.POST['radius']
+	date = datetime.datetime.strptime(request.POST['datetime'],"%m/%d/%Y %H:%M")
+	save_sponsored_post(message, channel, latitude, longitude, radius, date)
+	# push_sponsored_post(message, channel, latitude, longitude, radius, date)
