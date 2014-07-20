@@ -21,6 +21,26 @@ def settings(request):
     values = {}
     return render_to_response("settings.html", values, RequestContext(request))
 
+def past_messages(request):
+    values = {}
+    channels = ['food', 'fake', 'more', 'stuffs', 'last']
+    numUsers = [10, 2, 52, 12, 34]
+    messages = ['Free '*10 + channels[i] + '!' for i in xrange(len(channels))]
+    latitudes = [i*15 for i in xrange(len(channels))]
+    longitudes = [i*25 for i in xrange(len(channels))]
+    times = [(datetime.datetime.now() - datetime.timedelta(minutes=i*30)).strftime('%H:%M %m/%d/%Y') for i in xrange(len(channels))]
+    radii = [i for i in xrange(len(channels))]
+    past_messages = [{'id': i,
+                      'channel': channels[i],
+                      'numUsers': numUsers[i],
+                      'message': messages[i],
+                      'latitude': latitudes[i],
+                      'longitude': longitudes[i],
+                      'time': times[i],
+                      'radius': radii[i]} for i in xrange(len(channels))]
+    values['past_messages'] = past_messages
+    return render_to_response("past_messages.html", values, RequestContext(request))
+
 """
 Helper Functions
 """

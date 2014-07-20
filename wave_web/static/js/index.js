@@ -46,7 +46,7 @@ function map_initialize() {
         center: latlng,
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    };
     map = new google.maps.Map(map_canvas, map_options);
 }
 //google.maps.event.addDomListener(window, 'load', map_initialize);

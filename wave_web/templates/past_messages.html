@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block scripts %}
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script language="javascript" src="{% static 'js/past_messages.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/markerwithlabel_packed.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/maskedinput.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/past_messages.css' %}">
+{% endblock %}
+
+{% block contents %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-1">
+      <span class="h2 h-spacing">Past Messages</span><br/><br/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-1 col-md-10">
+      <table class="table table-striped">
+        <colgroup>
+          <col span="1" style="width: 12%">
+          <col span="1" style="width: 7%">
+          <col span="1" style="width: 58%">
+          <col span="1" style="width: 8%">
+          <col span="1" style="width: 15%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th># Users</th>
+            <th>Message</th>
+            <th>Location</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for message in past_messages %}
+          <tr>
+            <td>{{ message.channel }}</td>
+            <td>{{ message.numUsers }}</td>
+            <td>{{ message.message }}</td>
+            <td><a href="javascript:;"
+                   id="mapButton{{ message.id }}"
+                   onclick="toggleMap({{ message.id }}, {{ message.numUsers }}, {{ message.latitude }}, {{ message.longitude }}, {{ message.radius }})">Expand</a></td>
+            <td>{{ message.time }}</td>
+          </tr>
+          <tr class="hidden"></tr>
+          <tr id="mapContainer{{ message.id }}" class="hidden">
+            <td colspan="5">
+              <div id="mapCanvas{{ message.id }}" class="map"></div>
+              <div class="row">
+              <span class="col-md-offset-1">Latitude: {{ message.latitude }}</span>
+              <span class="col-md-offset-3">Longitude: {{ message.longitude }}</span>
+              <span class="col-md-offset-4">Radius: {{message.radius }}</span>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

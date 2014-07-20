@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^admin/$', wave_admin),
     url(r'^$', index),
     url(r'^settings/$', settings),
+    url(r'^analytics/$', past_messages),
     url(r'^api/getNumUsersOnChannelInRadius/(?P<channel>\w+)/(?P<latitude>[-]?[\d.]+)/(?P<longitude>[-]?[\d.]+)/(?P<radius>[\d.]+)$', get_num_users_in_radius)
 )
 
