@@ -162,9 +162,9 @@ function radiusToZoom( r ){
     return z;
 }
 
-function changeChannel(channel) {
+function changeChannel(channel, objectId) {
     $('#selectedChannel').text(channel);
-    document.getElementById("channel").value = channel;
+    document.getElementById("channel").value = objectId;
 }
 
 function submitForm() {
