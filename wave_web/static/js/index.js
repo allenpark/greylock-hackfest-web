@@ -88,15 +88,15 @@ function useCurrentLocation(callback) {
 
 function showLoading() {
     var loading = $('#loading');
-    if (loading.hasClass('hidden')) {
-        loading.removeClass('hidden');
+    if (loading.hasClass('invisible')) {
+        loading.removeClass('invisible');
     }
 }
 
 function hideLoading() {
     var loading = $('#loading');
-    if (!loading.hasClass('hidden')) {
-        loading.addClass('hidden');
+    if (!loading.hasClass('invisible')) {
+        loading.addClass('invisible');
     }
 }
 
@@ -168,9 +168,7 @@ function changeChannel(channel, objectId) {
 }
 
 function submitForm() {
-    var time = $('#timeSend').val();
-    var date = $('#dateSend').val();
-    var datetime = date + " " + time;
+    var datetime = $('#timeSend').val();
     document.getElementById("datetime").value = datetime;
 
     if ($('#radius').text() === "") {

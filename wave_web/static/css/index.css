@@ -32,12 +32,9 @@
 }
 
 .message {
-    width: 500px;
-}
-
-.message_area{
     font-size: 25px;
 }
+
 .preview-container {
     position: relative;
 }
@@ -55,7 +52,7 @@
     position: absolute; 
     left: 15px;
     top: 125px;
-    width: 240px;
+    width: 280px;
     height: 190px;
     z-index: 100;
     text-align: center;
@@ -79,5 +76,9 @@
 }
 
 .submit_button{
-    padding-left: 70px;
+    padding-left: 50px;
+}
+
+.invisible {
+    visibility: hidden;
 }
