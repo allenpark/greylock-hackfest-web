@@ -34,8 +34,8 @@ def get_channels_to_review():
        "X-Parse-REST-API-Key": "5vaJiWwBd46tQaXQbBs75WHek4TrIONo6SWoYrhX"
      })
     result = json.loads(connection.getresponse().read())
-    return [(channel["objectId"], channel["name"]) for channel in result["results"]]
-
+    return [{"objectId": channel["objectId"], "name": channel["name"]} for channel in result["results"]]   
+    
 def get_active_channels():
     connection = httplib.HTTPSConnection('api.parse.com', 443)
     params = urllib.urlencode({"where":json.dumps({
