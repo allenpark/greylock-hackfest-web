@@ -7,24 +7,31 @@ $(document).ready(function() {
         $('#preview').html(text);
     });
     map_initialize();
-    $('#setAddress').bind('click', setAddress);
+    $('#setAddress').bind('click', function() {setAddress(onLocationChange);});
     $('#address').bind('keyup', function(e) {
         if (e.which === 13) {
-            setAddress();
+            setAddress(onLocationChange);
         }
     });
     $('#radius').bind('keyup', function(e) {
         if (e.which === 13) {
-            setAddress();
+            setAddress(onLocationChange);
         }
     });
     if (navigator.geolocation) {
-        $('#useCurrentLocation').bind('click', useCurrentLocation);
+        $('#useCurrentLocation').bind('click', function() {useCurrentLocation(onLocationChange);});
     } else {
         $('#useCurrentLocation').hide();
     }
     $('#timeSend').mask('99:99');
     $('#dateSend').mask('99/99/9999');
+    $('#form').bind('keyup keypress', function(e) {
+        var code = e.keyCode || e.which;
+        if (code  == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 });
 
 var geocoder;
@@ -45,7 +52,7 @@ function map_initialize() {
 //google.maps.event.addDomListener(window, 'load', map_initialize);
 
 function setAddress(callback) {
-    if (!callback) {
+    if (callback === undefined) {
         callback = onLocationChange;
     }
     var address = $('#address').val();
@@ -171,6 +178,6 @@ function submitForm() {
         var longitude = position.lng();
         $('#latitude').html(latitude);
         $('#longitude').html(longitude);
-        this.form.submit();
+        $('#form').submit();
     });
 }
